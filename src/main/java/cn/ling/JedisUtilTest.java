@@ -115,7 +115,7 @@ public class JedisUtilTest {
       */
      @Test
      public void testSet(){
-         //添加
+         //添加集合,无序集合
          jedis.sadd("sname","minxr");
          jedis.sadd("sname","jarorwar");
          jedis.sadd("sname","闵晓荣");
@@ -126,6 +126,20 @@ public class JedisUtilTest {
          System.out.println(jedis.sismember("sname", "minxr"));//判断 minxr 是否是sname集合的元素
          System.out.println(jedis.srandmember("sname"));
          System.out.println(jedis.scard("sname"));//返回集合的元素个数
+         //有序集合
+         jedis.zadd("tutoriallist", 0,"redis");
+         jedis.zadd("tutoriallist", 4,"mongodb");
+         jedis.zadd("tutoriallist", 0,"rabitmq");
+         jedis.zadd("tutoriallist", 1,"rabitmq");
+         jedis.zadd("tutoriallist", 2,"rabitmq");
+         jedis.zadd("tutoriallist", 3,"activemq");
+         //返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量
+         System.out.println("tutoriallist.."+jedis.zcount("tutoriallist", 1, 3));
+         //为有序集 key 的成员 member 的 score 值加上增量 increment 。
+         System.out.println("tutoriallist.."+jedis.zincrby("tutoriallist", 5, "redis"));
+         System.out.println(jedis.zrangeByScore("tutoriallist", 0, 100));
+         //返回有序集 key 中，指定区间内的成员。
+         System.out.println(jedis.zrange("tutoriallist", 0, -1));
      }
 
      @Test
